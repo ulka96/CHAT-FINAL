@@ -19,23 +19,32 @@ const scrollRef = useRef()
 
 const dispatch = useDispatch()
 
-const getMessages = async() => {
+  // Scroll to the latest message when messages update
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
 
-  const response = await fetch(`/messages/${selectedUser._id}`)
-  const data = await response.json()
 
-  dispatch(setMessages(data))
+  // Fetch messages when selectedUser changes
+  useEffect(() => {
+    const getMessages = async () => {
+      if (!selectedUser?._id) return; // Early exit if selectedUser is not set
 
-}
+      try {
+        const response = await fetch(`/messages/${selectedUser._id}`);
+        if (!response.ok) throw new Error('Failed to fetch messages');
 
-useEffect(() => {
- scrollRef.current.scrollIntoView({behavior: "smooth"})
+        const data = await response.json();
+        dispatch(setMessages(data));
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    };
 
-}, [messages])
-
-useEffect(() => {
-  getMessages()
-}, [selectedUser])
+    getMessages();
+  }, [selectedUser, dispatch]);
 
   return (
     <div className="bg-[#f6f6f6] p-5 pb-0 rounded-2xl flex-1 overflow-scroll">

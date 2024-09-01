@@ -1,7 +1,7 @@
 // Icons
 import Profile from "../icons/Profile";
 import CloseEye from "../icons/CloseEye";
-import OpenEye from "../icons/OpenEye";
+// import OpenEye from "../icons/OpenEye";
 
 // Link
 import { Link, useNavigate } from "react-router-dom";

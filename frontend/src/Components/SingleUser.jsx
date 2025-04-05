@@ -5,6 +5,11 @@ import { useSelector } from "react-redux";
 const SingleUser = ({user, onClick}) => {
 
  const selectedUser = useSelector((state) => state.user.selectedUser) 
+ const onlineUsersIds = useSelector(state => state.user.onlineUsersIds)
+
+ const isOnline = onlineUsersIds.includes(user._id)
+
+
 
   return (
     <div
@@ -22,14 +27,14 @@ const SingleUser = ({user, onClick}) => {
         </div>
         <div>
           <h4 className="text-sm text-black mb-1">{user.fullName}</h4>
-          <p className="text-xs text-gray-400">{user.userName}</p>
+          <p className="text-xs text-gray-400">{isOnline? "Online" : "Offline"}</p>
         </div>
       </div>
 
       {/* Right */}
       <div className="flex flex-col justify-start items-end">
         <p className="text-xs text-gray-400 mb-2">10:27 AM</p>
-        <p className={`text-right h-4 w-4 text-white bg-red-500 rounded-full text-[9px] flex items-center justify-center`}></p>
+        <p className={`text-right h-4 w-4 text-white ${isOnline? "bg-green-500" : "bg-red-500"} rounded-full text-[9px] flex items-center justify-center`}></p>
       </div>
     </div>
   );

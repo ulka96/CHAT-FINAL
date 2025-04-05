@@ -40,10 +40,16 @@ if(!response.ok) {
 
 if(response.ok) {
   console.log(data.data);
+
+  sessionStorage.setItem("userId", data.data._id)
+
+  navigate("/");
 }
 
 
-navigate("/");
+
+
+
 
 }
 
